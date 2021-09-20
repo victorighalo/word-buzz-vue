@@ -62,13 +62,11 @@ input {
 h3{
 font-size: 25px;
 margin: 0;
-font-family: 'Ubuntu', sans-serif;
 }
 
 h5{
     font-size: 20px;
     margin: 0;
-    font-family: 'Ubuntu', sans-serif;
     }
 .game{
     display: flex;
@@ -87,12 +85,15 @@ margin-bottom: 60px;
     align-items: center;
     flex-direction: column;
     }
-    
+    .game > .gameover{
+        width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    }
 .players > div{
         margin-bottom: 30px !important; 
         text-align: left;
-}
-.gameover{
-  color: #50342c;
 }
 </style>

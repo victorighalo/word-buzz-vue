@@ -22,6 +22,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  /* height:100vh */
 }
 
 .mb{
@@ -30,10 +31,6 @@ export default {
 .mt{
     margin-top: 30px !important;
 }
-label{
-  display: block;
-  text-align: left;
-}
 button {
     padding: 10px 20px;
     border-radius: 6px;
@@ -41,14 +38,10 @@ button {
     border-style: solid;
     font-size: 20px;
     cursor: pointer;
-    background: #fff;
-        color: #333;
-        border-color: #333;
     transition: 0.25s ease;
 }
 button:hover{
         background: #333;
-        color: #fff;
 }
 input {
     padding: 10px 20px;
@@ -62,13 +55,11 @@ input {
 h3{
 font-size: 25px;
 margin: 0;
-font-family: 'Ubuntu', sans-serif;
 }
 
 h5{
     font-size: 20px;
     margin: 0;
-    font-family: 'Ubuntu', sans-serif;
     }
 .game{
     display: flex;
@@ -87,12 +78,8 @@ margin-bottom: 60px;
     align-items: center;
     flex-direction: column;
     }
-    
 .players > div{
         margin-bottom: 30px !important; 
         text-align: left;
-}
-.gameover{
-  color: #50342c;
 }
 </style>

@@ -1,0 +1,31 @@
+* {
+    all: unset;
+    display: revert;
+    box-sizing: border-box;
+}
+[default-styles] {
+    all: revert;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 6px;
+    border-width: 2px;
+    border-style: solid;
+    font-size: 20px;
+    font-family: 'Ubuntu', sans-serif;
+    cursor: pointer;
+    transition: 0.25s ease;
+
+}
+.game{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .container{
+        width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+}

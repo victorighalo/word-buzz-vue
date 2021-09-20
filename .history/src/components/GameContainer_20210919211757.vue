@@ -1,0 +1,137 @@
+<template>
+  <div class="game">
+
+ <div class="container">
+   <div class="header">
+     <h3>Word Buzz Game</h3>
+     <!-- <pre>{{nextQuestion || pretty}}</pre> -->
+   </div>
+   <div class="content">
+     <div class="players" v-if="!uiProps.gameStarted">
+       <div>
+         <h5>Player One</h5>
+         <input type="text" v-model="uiProps.playerOne.name">
+       </div>
+       <div>
+         <h5>Player Two</h5>
+         <input type="text" v-model="uiProps.playerTwo.name">
+       </div>
+       <button @click="startGame">Start</button>
+     </div>
+
+     <div  class="question__container" v-if="uiProps.gameStarted && nextQuestion === null">
+       <h5>Hey! {{uiProps?.playerOne?.name}}, Enter your secret word</h5>
+      <div class="question">
+      
+          <div>
+            <label for="question">Secret Word</label>
+            <input type="password" v-model="uiProps.question.value">
+          </div>
+          <div>
+            <label for="question">Word Hint</label>
+            <input type="text" v-model="uiProps.question.hint">
+          </div>
+          <button @click="saveQuestion" >Save</button>
+  
+      </div>
+     </div>
+
+     <div class="answer__container"  v-if="uiProps.gameStarted && nextQuestion !== null && nextQuestion !== undefined">
+         <h5>Word Hint: {{nextQuestion.hint}}</h5>
+         <div>
+            <h5>Take a guess of the secret Word</h5>
+            <p>You have {{guessCount}} tries left</p>
+            <input type="text" v-model="uiProps.answer">
+          </div>
+          <button @click="saveAnswer" >Take a guess</button>
+       </div>
+      
+   </div>
+      </div>
+      </div>
+      </template>
+        
+<script>
+  import { GameState } from "../data";
+  import { GameModels} from "../models";
+export default {
+  name: 'Game',
+  props: {
+    msg: String
+  },
+  data: GameState,
+  methods:{
+  startGame(){
+    if(this.playersReady){
+      this.uiProps.gameStarted = true
+    }else{
+      alert('Enter Players name')
+    }
+  },
+  saveQuestion(){
+    if(!this.questionReady){
+      alert('A secret word and hint is required')
+      return
+    }
+    GameModels.question.value = this.uiProps.question.value
+    GameModels.question.hint = this.uiProps.question.hint
+    GameModels.question.playerId = this.uiProps.playerOne.id
+    GameModels.question.questionKey = this.uiProps.questions.length
+    this.uiProps.questions.push(GameModels.question)
+  },
+    saveAnswer(){
+if(this.nextQuestion){
+  if(this.validateAnswer()){
+GameModels.answer.playerId = this.uiProps.playerTwo.id
+GameModels.answer.questionKey = this.nextQuestion.questionKey
+GameModels.answer.value = this.uiProps.answer
+this.uiProps.questions[this.nextQuestion.questionKey].answers.push(GameModels.answer)
+  }
+}
+  },
+  validateAnswer(){
+    if(this.uiProps.answer.length < 2){
+      alert(`Input an answer`)
+      return false
+    }
+    if(this.uiProps.questions[this.nextQuestion.questionKey].value.toLowerCase() === this.uiProps.answer.toLowerCase()){
+      alert(`Correct Answer!!!`)
+      this.uiProps.question.value = '';
+      this.uiProps.question.hint = '';
+      this.uiProps.answer = '';
+      return true
+    }else{
+      alert(`Wrong guess!!! You have ${this.guessCount - 1} tries left`)
+      this.uiProps.answer = ''
+      return true
+    }
+  }
+  },
+  computed: {
+    playersReady(){ return this.uiProps.playerOne.name.length > 0 && this.uiProps.playerTwo.name.length > 0 },
+    questionReady(){ return this.uiProps.question.value.length > 2 && this.uiProps.question.hint.length > 2 },
+    nextQuestion(){ 
+      let question = null
+      let self = this
+      this.uiProps.questions.forEach( (item, i)=>{
+        if(item.answers.length === self.uiProps.maxAnswersCount){
+          question = self.uiProps.questions[i+1];
+        }
+        else if(self.saveAnswer()) {
+        question = null;   
+        } else {
+          question = item;
+        }
+      })
+      return question;
+    },
+    guessCount(){ 
+      if(this.nextQuestion){
+        return this.uiProps.maxAnswersCount - this.nextQuestion.answers.length
+      }else{
+        return 0
+      }
+    }
+  }
+}
+</script>
